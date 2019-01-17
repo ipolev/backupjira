@@ -6,6 +6,7 @@ TIMESTAMP=`date '+%d%m%y_%H%M%S'`
 JIRA_BACKUP_DIR="/srv/jira-backup-$TIMESTAMP"
 PID_FILE="/var/run/atlassian-backup.pid"
 LOG_FILE="/var/log/backup-jira_$TIMESTAMP.log"
+DAYS=30
 
 # Print messages to log file
 _log() {
@@ -119,6 +120,7 @@ if [ ! -f $PID_FILE ]; then
    echo $$ > $PID_FILE
    _create_backup
    rm -f $PID_FILE
+   #find $JIRA_BACKUP_DIR/ -mtime +$DAYS -exec rm -f {} \;
 else
    $MSG="Script is already started"
    echo "$MSG"
